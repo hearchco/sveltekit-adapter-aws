@@ -1,28 +1,33 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { installPolyfills } from '@sveltejs/kit/node/polyfills';
+// @ts-ignore
 import { Server } from '../index.js';
+// @ts-ignore
 import { manifest } from '../manifest.js';
+// @ts-ignore
 import prerenderedFiles from './prerendered-file-list.js';
-import { InternalEvent, convertFrom, convertTo } from './event-mapper.js';
+import { convertFrom, convertTo } from './event-mapper.js';
 import { debug } from './logger.js';
 import { isBinaryContentType } from './binary.js';
 
 installPolyfills();
 
 /**
- * @typedef {import("@sveltejs/kit/types").Server} ServerType
+ * @typedef {import("./event-mapper.js").InternalEvent} InternalEvent
+ * @typedef {import("@sveltejs/kit").Server} ServerType
  * @typedef {import("aws-lambda").APIGatewayProxyEventV2} APIGatewayProxyEventV2
  * @typedef {import("aws-lambda").APIGatewayProxyEvent} APIGatewayProxyEvent
  * @typedef {import("aws-lambda").CloudFrontRequestEvent} CloudFrontRequestEvent
  * @typedef {import("aws-lambda").CloudFrontRequest} CloudFrontRequest
+ * @typedef {import("aws-lambda").CloudFrontRequestResult} CloudFrontRequestResult
  * @typedef {import("aws-lambda").APIGatewayProxyResultV2} APIGatewayProxyResultV2
  * @typedef {import("aws-lambda").APIGatewayProxyResult} APIGatewayProxyResult
  */
 
 /** @type {ServerType} */
 const app = new Server(manifest);
-app.init({ env: process.env });
+app.init({ env: /** @type {Record<string, string>} */ (process.env) });
 
 /**
  * Handles incoming requests from AWS API Gateway or CloudFront and responds appropriately.
@@ -45,7 +50,10 @@ export async function handler(event) {
     const filePath = isPrerenderedFile(internalEvent.rawPath);
     if (filePath) {
       return internalEvent.type === 'cf'
-        ? formatCloudFrontPrerenderedResponse(event, filePath)
+        ? formatCloudFrontPrerenderedResponse(
+            /** @type {CloudFrontRequestEvent} */ (event),
+            filePath
+          )
         : formatAPIGatewayPrerenderedResponse(internalEvent, filePath);
     }
   }
@@ -137,7 +145,7 @@ function formatCloudFrontPrerenderedResponse(event, filePath) {
  * Formats a response for API Gateway when serving prerendered content.
  * @param {InternalEvent} internalEvent - The internal representation of the event.
  * @param {string} filePath - The file path to the prerendered file.
- * @returns {APIGatewayProxyResultV2|APIGatewayProxyResult} The response object compatible with API Gateway.
+ * @returns {APIGatewayProxyResult | APIGatewayProxyResultV2 | CloudFrontRequestResult} The response object compatible with API Gateway.
  */
 function formatAPIGatewayPrerenderedResponse(internalEvent, filePath) {
   return convertTo({

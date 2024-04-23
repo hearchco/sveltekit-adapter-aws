@@ -35,7 +35,7 @@ import { debug } from './logger.js';
 /**
  * Checks if the event is an API Gateway V2 event.
  * @param {any} event The event to check.
- * @returns {boolean} True if it's an API Gateway V2 event.
+ * @returns {event is APIGatewayProxyEventV2} True if it's an API Gateway V2 event.
  */
 export function isAPIGatewayProxyEventV2(event) {
   return event.version === '2.0';
@@ -44,7 +44,7 @@ export function isAPIGatewayProxyEventV2(event) {
 /**
  * Checks if the event is an API Gateway V1 event.
  * @param {any} event The event to check.
- * @returns {boolean} True if it's an API Gateway V1 event.
+ * @returns {event is APIGatewayProxyEvent} True if it's an API Gateway V1 event.
  */
 export function isAPIGatewayProxyEvent(event) {
   return event.version === undefined && !isCloudFrontRequestEvent(event);
@@ -53,7 +53,7 @@ export function isAPIGatewayProxyEvent(event) {
 /**
  * Checks if the event is a CloudFront request event.
  * @param {any} event The event to check.
- * @returns {boolean} True if it's a CloudFront request event.
+ * @returns {event is CloudFrontRequestEvent} True if it's a CloudFront request event.
  */
 export function isCloudFrontRequestEvent(event) {
   return event.Records !== undefined;
@@ -157,7 +157,7 @@ function convertFromCloudFrontRequestEvent(event) {
 function convertToApiGatewayProxyResult(result) {
   /** @type {Record<string, string>} */
   const headers = {};
-  /** @type {Record<string, string>} */
+  /** @type {Record<string, string[]>} */
   const multiValueHeaders = {};
   Object.entries(result.headers).forEach(([key, value]) => {
     if (Array.isArray(value)) {
@@ -199,13 +199,11 @@ function convertToApiGatewayProxyResultV2(result) {
       }
       headers[key] = Array.isArray(value) ? value.join(', ') : value.toString();
     });
-  /** @type {string[]|undefined} */
-  const cookies = result.headers['set-cookie'];
   /** @type {APIGatewayProxyResultV2} */
   const response = {
     statusCode: result.statusCode,
     headers,
-    cookies,
+    cookies: /** @type {string[]|undefined} */ (result.headers['set-cookie']),
     body: result.body,
     isBase64Encoded: result.isBase64Encoded
   };
@@ -259,7 +257,7 @@ function normalizeAPIGatewayProxyEventV2Headers(event) {
   }
 
   for (const [key, value] of Object.entries(rawHeaders || {})) {
-    headers[key.toLowerCase()] = value;
+    headers[key.toLowerCase()] = /** @type {string} */ (value);
   }
 
   return headers;
