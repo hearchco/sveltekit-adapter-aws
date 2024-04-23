@@ -16,9 +16,6 @@ devDependencies:
   '@sveltejs/kit':
     specifier: ^2.5.6
     version: 2.5.6(@sveltejs/vite-plugin-svelte@3.1.0)(svelte@4.2.15)(vite@5.2.9)
-  '@sveltejs/vite-plugin-svelte':
-    specifier: ^3.0.1
-    version: 3.1.0(svelte@4.2.15)(vite@5.2.9)
   '@types/aws-lambda':
     specifier: ^8.10.137
     version: 8.10.137
