@@ -39,7 +39,7 @@ export default function (options = {}) {
    * The placeholder "{{_EDGE_FUNCTION_ENVIRONMENT_}}" must be replaced with your IaC pipeline
    */
   const edgeBanner = opt.edge
-    ? 'process.env = { ...process.env, ..."{{_EDGE_FUNCTION_ENVIRONMENT_}}" };'
+    ? "process.env = { ...process.env, ...'{{_EDGE_FUNCTION_ENVIRONMENT_}}' };"
     : '';
 
   const adapter = {
