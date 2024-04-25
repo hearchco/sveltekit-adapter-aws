@@ -12,6 +12,7 @@ import { fileURLToPath } from 'node:url';
  * Adapter options type definition.
  * @typedef {Object} AdapterOptions
  * @property {string} [out] - The output directory for the adapter
+ * @property {boolean} [edge] - Whether to build for edge deployment (requires environment variables to use placeholders)
  * @property {boolean} [stream] - Whether to build for response streaming (requires lambda invoke method to be RESPONSE_STREAM)
  * @property {import('esbuild').BuildOptions} [esbuild] - Additional esbuild options
  */
@@ -24,15 +25,32 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url));
  * @returns {Adapter} The adapter configuration
  */
 export default function (options = {}) {
+  const name = 'sveltekit-adapter-aws';
+
+  const opt = {
+    out: options.out ?? 'build',
+    edge: options.edge ?? false,
+    stream: options.stream ?? false,
+    esbuild: options.esbuild ?? {}
+  };
+
+  /**
+   * WARNING: This is a workaround to inject environment variables into the edge function
+   * The placeholder "{{_EDGE_FUNCTION_ENVIRONMENT_}}" must be replaced with your IaC pipeline
+   */
+  const edgeBanner = opt.edge
+    ? 'process.env = { ...process.env, ..."{{_EDGE_FUNCTION_ENVIRONMENT_}}" };'
+    : '';
+
   const adapter = {
-    name: 'sveltekit-adapter-aws',
+    name: name,
 
     /**
      * Adapts the project for deployment.
      * @param {Builder} builder - The builder instance from SvelteKit
      */
     async adapt(builder) {
-      const tmp = path.join('.svelte-kit', 'sveltekit-adapter-aws');
+      const tmp = path.join('.svelte-kit', name);
       const clientDir = path.join(tmp, 'client');
       const serverDir = path.join(tmp, 'server');
       const prerenderedDir = path.join(tmp, 'prerendered');
@@ -68,7 +86,7 @@ export default function (options = {}) {
       );
 
       // Set output directory
-      const out = path.resolve(options.out ?? 'build');
+      const out = path.resolve(opt.out);
       const s3 = path.join(out, 's3');
       const lambda = path.join(out, 'lambda');
       const cloudfront = path.join(out, 'cloudfront');
@@ -95,7 +113,7 @@ export default function (options = {}) {
         target: 'esnext',
         format: 'cjs',
         external: ['aws-sdk'],
-        ...(options.esbuild ?? {})
+        ...opt.esbuild
       });
 
       // Bundle and minify server code
@@ -112,7 +130,10 @@ export default function (options = {}) {
         target: 'esnext',
         format: 'esm',
         external: ['aws-sdk'],
-        ...(options.esbuild ?? {})
+        banner: {
+          js: edgeBanner
+        },
+        ...opt.esbuild
       });
     }
   };

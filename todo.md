@@ -1,6 +1,1 @@
-- placeholder env?
-- create lambda or edge function, grant readwrite perm to S3 bucket # why write?
-- s3: copy client dir with cache, \_app is versioned
-- s3: copy prerendered w/o cache
-- behaviors: if edge: attach to cloudfront and use S3 as origin -> else: use lambda as origin
-- create 1 behavior for each top level asset file (name) or folder (name/\*) with origin s3
+- response stream impl
