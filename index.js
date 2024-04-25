@@ -36,7 +36,7 @@ export default function (options = {}) {
 
   /**
    * WARNING: This is a workaround to inject environment variables into the edge function
-   * The placeholder "{{_EDGE_FUNCTION_ENVIRONMENT_}}" must be replaced with your IaC pipeline
+   * The placeholder '{{_EDGE_FUNCTION_ENVIRONMENT_}}' must be replaced with your IaC pipeline
    */
   const edgeBanner = opt.edge
     ? "process.env = { ...process.env, ...'{{_EDGE_FUNCTION_ENVIRONMENT_}}' };"
