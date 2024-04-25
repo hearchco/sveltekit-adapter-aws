@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url';
  * Adapter options type definition.
  * @typedef {Object} AdapterOptions
  * @property {string} [out] - The output directory for the adapter
- * @property {boolean} [stream] - Whether to build for response streaming (requires lambda invoke method to be RESPONSE_STREAMING)
+ * @property {boolean} [stream] - Whether to build for response streaming (requires lambda invoke method to be RESPONSE_STREAM)
  * @property {import('esbuild').BuildOptions} [esbuild] - Additional esbuild options
  */
 
