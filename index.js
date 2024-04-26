@@ -111,7 +111,7 @@ export default function (options = {}) {
         ),
         {
           minify: true,
-          target: 'es5'
+          target: 'es2020'
         }
       );
       fs.writeFileSync(
