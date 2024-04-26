@@ -3,7 +3,9 @@
     "allowJs": true,
     "checkJs": true,
     "strict": true,
-    "noEmit": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": ".",
     "noImplicitAny": true,
     "target": "ES2022",
     "module": "node16",
@@ -11,5 +13,6 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": "."
   },
-  "include": ["**/*.js", "index.d.ts", "internal.d.ts", ".eslintrc.cjs"]
+  "include": ["**/*.js"],
+  "exclude": ["node_modules"]
 }

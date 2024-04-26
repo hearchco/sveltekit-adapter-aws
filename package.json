@@ -7,6 +7,7 @@
     "url": "https://github.com/hearchco/sveltekit-adapter-aws",
     "directory": "packages/adapter-aws"
   },
+  "main": "index.js",
   "type": "module",
   "exports": {
     ".": {
@@ -23,6 +24,7 @@
     "index.d.ts"
   ],
   "scripts": {
+    "build": "npx tsc",
     "lint": "eslint .",
     "format": "prettier --write .",
     "check-format": "prettier --check .",
