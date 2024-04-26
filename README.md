@@ -2,6 +2,16 @@
 
 SvelteKit AWS universal adapter for creating necessary assets and code which can later be deployed using a custom IaC pipeline.
 
+## Install
+
+Run:
+
+```sh
+pnpm i -D github:hearchco/sveltekit-adapter-aws
+```
+
+Switch your adapter in sveltekit config to `@hearchco/sveltekit-adapter-aws`
+
 ## Acknowledgements
 
 This project wouldn't be possible without:
