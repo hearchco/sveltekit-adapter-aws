@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { build } from 'esbuild';
+import { build, transform } from 'esbuild';
 import { fileURLToPath } from 'node:url';
 
 /**
@@ -102,19 +102,22 @@ export default function (options = {}) {
       builder.copy(clientDir, s3);
       builder.copy(prerenderedDir, s3);
 
-      // Bundle and minify Cloudfront Function code
-      builder.log.minor('Bundling Cloudfront function...');
-      await build({
-        entryPoints: [path.join(serverDir, 'cloudfront', 'index.js')],
-        outfile: path.join(cloudfront, 'index.js'),
-        bundle: true,
-        minify: true,
-        platform: 'node',
-        target: 'esnext',
-        format: 'cjs',
-        external: ['aws-sdk'],
-        ...opt.esbuild
-      });
+      // Minify Cloudfront Function code
+      builder.log.minor('Minifying Cloudfront function...');
+      const minifiedCloudfrontFunction = await transform(
+        fs.readFileSync(
+          path.join(serverDir, 'cloudfront', 'index.js'),
+          'utf-8'
+        ),
+        {
+          minify: true,
+          target: 'es5'
+        }
+      );
+      fs.writeFileSync(
+        path.join(cloudfront, 'index.js'),
+        `${minifiedCloudfrontFunction.code}`
+      );
 
       // Bundle and minify server code
       builder.log.minor('Bundling Lambda function...');

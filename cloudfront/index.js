@@ -1,5 +1,6 @@
 /**
  * @typedef {import("aws-lambda").CloudFrontFunctionsEvent} CloudFrontFunctionsEvent
+ * @typedef {import("aws-lambda").CloudFrontFunctionsQuerystring} CloudFrontFunctionsQuerystring
  */
 
 /**
@@ -9,14 +10,23 @@
  * @param {CloudFrontFunctionsEvent} event
  * @returns {any}
  */
-export function handler(event) {
+function handler(event) {
   var request = event.request;
-  request.headers['x-forwarded-host'] = request.headers.host;
+
+  if (request.headers.host) {
+    request.headers['x-forwarded-host'] = request.headers.host;
+  }
+
+  /** @type {CloudFrontFunctionsQuerystring} */
+  var newQuerystring = {};
   for (var key in request.querystring) {
     if (key.includes('/')) {
-      request.querystring[encodeURIComponent(key)] = request.querystring[key];
-      delete request.querystring[key];
+      newQuerystring[encodeURIComponent(key)] = request.querystring[key];
+    } else {
+      newQuerystring[key] = request.querystring[key];
     }
   }
+  request.querystring = newQuerystring;
+
   return request;
 }
