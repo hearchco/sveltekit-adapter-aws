@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 /**
  * @typedef {import("aws-lambda").CloudFrontFunctionsEvent} CloudFrontFunctionsEvent
  * @typedef {import("aws-lambda").CloudFrontFunctionsQuerystring} CloudFrontFunctionsQuerystring
@@ -7,8 +9,8 @@
  * Note: form action requests contain "/" in request query string
  * ie. POST request with query string "?/action"
  * CloudFront does not allow query string with "/". It needs to be encoded.
- * @param {CloudFrontFunctionsEvent} event
- * @returns {any}
+ * @param {CloudFrontFunctionsEvent} event - Cloudfront functions event
+ * @returns {any} - Cloudfront function event request
  */
 function handler(event) {
   var request = event.request;

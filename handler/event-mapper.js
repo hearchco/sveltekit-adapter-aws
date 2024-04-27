@@ -12,7 +12,7 @@ import { debug } from './logger.js';
 
 /**
  * Represents an internal event type.
- * @typedef {Object} InternalEvent
+ * @typedef {object} InternalEvent
  * @property {"v1"|"v2"|"cf"} type The type of the event.
  * @property {string} method HTTP method used in the event.
  * @property {string} rawPath The raw path accessed in the event.
@@ -24,7 +24,7 @@ import { debug } from './logger.js';
 
 /**
  * Represents an internal result format.
- * @typedef {Object} InternalResult
+ * @typedef {object} InternalResult
  * @property {"v1"|"v2"|"cf"} type The type of the result.
  * @property {number} statusCode HTTP status code.
  * @property {Record<string, string|string[]>} headers Headers to send in the response.

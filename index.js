@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 
 /**
  * Adapter options type definition.
- * @typedef {Object} AdapterOptions
+ * @typedef {object} AdapterOptions
  * @property {string} [out] - The output directory for the adapter
  * @property {boolean} [edge] - Whether to build for edge deployment (requires environment variables to use placeholders)
  * @property {boolean} [stream] - Whether to build for response streaming (requires lambda invoke method to be RESPONSE_STREAM)
