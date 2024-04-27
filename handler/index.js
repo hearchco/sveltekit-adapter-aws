@@ -156,6 +156,6 @@ function formatAPIGatewayPrerenderedResponse(internalEvent, filePath) {
       'cache-control': 'public, max-age=0, s-maxage=31536000, must-revalidate'
     },
     isBase64Encoded: false,
-    body: fs.readFileSync(path.join('prerendered', filePath), 'utf8')
+    body: fs.readFileSync(path.join('prerendered', filePath), 'utf8') // WARNING: Doesn't work on Lambda@Edge
   });
 }
