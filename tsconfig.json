@@ -13,6 +13,6 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": "."
   },
-  "include": ["**/*.js"],
+  "include": ["**/*.js", "**/*.ts"],
   "exclude": ["node_modules"]
 }
