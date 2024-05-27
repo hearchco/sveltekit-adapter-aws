@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   aws-sdk:
-    specifier: ^2.1609.0
-    version: 2.1609.0
+    specifier: ^2.1628.0
+    version: 2.1628.0
   esbuild:
     specifier: ^0.21.1
     version: 0.21.1
@@ -866,8 +866,8 @@ packages:
       possible-typed-array-names: 1.0.0
     dev: false
 
-  /aws-sdk@2.1609.0:
-    resolution: {integrity: sha512-l5RiTld8f0AtxgSN2hXkuM/PPD04UHm4yfnJR6NpuQ+VSCl9RQfdNFUlnnVrJPd2hcoq/qz/gQiBVPjFqGAZwQ==}
+  /aws-sdk@2.1628.0:
+    resolution: {integrity: sha512-mUjvITHmV46JbCTQR8TovWzJEHZtbC9cTRySXyuIuuYQNjA2RrbfqLXXKR/xru+vPFKnfTLw+QQ/BC2l1/Ln5g==}
     engines: {node: '>= 10.0.0'}
     requiresBuild: true
     dependencies:
