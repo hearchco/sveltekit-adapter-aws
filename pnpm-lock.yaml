@@ -17,8 +17,8 @@ devDependencies:
     specifier: ^2.5.10
     version: 2.5.10(@sveltejs/vite-plugin-svelte@3.1.0)(svelte@4.2.15)(vite@5.2.9)
   '@types/aws-lambda':
-    specifier: ^8.10.137
-    version: 8.10.137
+    specifier: ^8.10.138
+    version: 8.10.138
   '@types/node':
     specifier: 20.14.2
     version: 20.14.2
@@ -796,8 +796,8 @@ packages:
       - supports-color
     dev: true
 
-  /@types/aws-lambda@8.10.137:
-    resolution: {integrity: sha512-YNFwzVarXAOXkjuFxONyDw1vgRNzyH8AuyN19s0bM+ChSu/bzxb5XPxYFLXoqoM+tvgzwR3k7fXcEOW125yJxg==}
+  /@types/aws-lambda@8.10.138:
+    resolution: {integrity: sha512-71EHMl70TPWIAsFuHd85NHq6S6T2OOjiisPTrH7RgcjzpJpPh4RQJv7PvVvIxc6PIp8CLV7F9B+TdjcAES5vcA==}
     dev: true
 
   /@types/cookie@0.6.0:
