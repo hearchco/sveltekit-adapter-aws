@@ -39,7 +39,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "aws-sdk": "^2.1654.0",
-    "esbuild": "^0.21.5"
+    "esbuild": "^0.23.0"
   },
   "devDependencies": {
     "@sveltejs/kit": "^2.5.17",
