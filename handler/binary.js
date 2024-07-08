@@ -1,3 +1,5 @@
+// @ts-self-types="./binary.d.ts"
+
 /**
  * A set containing common binary MIME types.
  * @type {Set<string>}

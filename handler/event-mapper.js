@@ -1,3 +1,5 @@
+// @ts-self-types="./event-mapper.d.ts"
+
 /**
  * @typedef {import("aws-lambda").APIGatewayProxyEventV2} APIGatewayProxyEventV2
  * @typedef {import("aws-lambda").APIGatewayProxyResultV2} APIGatewayProxyResultV2

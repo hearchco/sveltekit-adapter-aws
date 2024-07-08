@@ -1,3 +1,5 @@
+// @ts-self-types="./index.d.ts"
+
 import fs from 'node:fs';
 import path from 'node:path';
 import { installPolyfills } from '@sveltejs/kit/node/polyfills';
