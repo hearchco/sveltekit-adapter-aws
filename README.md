@@ -7,7 +7,7 @@ SvelteKit AWS universal adapter for creating necessary assets and code which can
 Run:
 
 ```sh
-pnpm i -D github:hearchco/sveltekit-adapter-aws
+pnpm dlx jsr add @hearchco/sveltekit-adapter-aws
 ```
 
 Switch your adapter in sveltekit config to `@hearchco/sveltekit-adapter-aws`
