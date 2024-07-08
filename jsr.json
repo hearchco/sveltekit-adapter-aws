@@ -1,6 +1,6 @@
 {
   "name": "@hearchco/sveltekit-adapter-aws",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "exports": {
     ".": "./index.js",
     "./package.json": "./package.json"
