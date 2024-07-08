@@ -134,7 +134,7 @@ export default function (options = {}) {
         platform: 'node',
         target: 'esnext',
         format: 'esm',
-        external: ['aws-sdk', '@sveltejs/kit'],
+        external: ['aws-sdk', '@sveltejs/kit', 'npm:@sveltejs/kit'],
         banner: {
           js: edgeBanner
         },
