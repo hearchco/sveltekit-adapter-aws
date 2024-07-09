@@ -38,8 +38,8 @@ app.init({ env: /** @type {Record<string, string>} */ (process.env) });
 
 /**
  * Handles incoming requests from AWS API Gateway or CloudFront and responds appropriately.
- * @param {APIGatewayProxyEventV2 | CloudFrontRequestEvent | APIGatewayProxyEvent} event - The incoming event from AWS Lambda.
- * @returns {Promise<any>} The response to be returned to AWS Lambda.
+ * @param {APIGatewayProxyEvent | APIGatewayProxyEventV2 | CloudFrontRequestEvent} event - The incoming event from AWS Lambda.
+ * @returns {Promise<CloudFrontRequest | CloudFrontRequestResult | APIGatewayProxyResult | APIGatewayProxyResultV2>} - The response to be returned to AWS Lambda.
  */
 export async function handler(event) {
   debug('event', event);
@@ -106,16 +106,19 @@ export async function handler(event) {
       body
     });
   }
-  return {
+
+  /** @type {CloudFrontRequestResult} */
+  const notFoundResp = {
     statusCode: 404,
     body: 'Not found.'
   };
+  return notFoundResp;
 }
 
 /**
  * Checks if the URI corresponds to a prerendered file.
  * @param {string} uri - The URI to check.
- * @returns {string|undefined} The filepath if it is a prerendered file, otherwise undefined.
+ * @returns {string | undefined} The filepath if it is a prerendered file, otherwise undefined.
  */
 function isPrerenderedFile(uri) {
   // remove leading and trailing slashes

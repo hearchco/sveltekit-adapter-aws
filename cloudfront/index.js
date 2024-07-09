@@ -10,6 +10,7 @@
 /**
  * @typedef {import("aws-lambda").CloudFrontFunctionsEvent} CloudFrontFunctionsEvent
  * @typedef {import("aws-lambda").CloudFrontFunctionsQuerystring} CloudFrontFunctionsQuerystring
+ * @typedef {import("aws-lambda").CloudFrontFunctionsEvent.request} CloudFrontFunctionsRequest
  */
 
 /**
@@ -17,7 +18,7 @@
  * ie. POST request with query string "?/action"
  * CloudFront does not allow query string with "/". It needs to be encoded.
  * @param {CloudFrontFunctionsEvent} event - Cloudfront functions event
- * @returns {any} - Cloudfront function event request
+ * @returns {CloudFrontFunctionsRequest} - Cloudfront function event request
  */
 function handler(event) {
   var request = event.request;

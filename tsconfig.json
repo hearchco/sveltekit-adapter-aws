@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "checkJs": true,
+    // "allowJs": true,
+    // "checkJs": true,
     "strict": true,
     "declaration": true,
     "emitDeclarationOnly": true,
+    "isolatedDeclarations": true,
     "outDir": ".",
     "noImplicitAny": true,
     "target": "ES2022",
