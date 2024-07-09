@@ -15,7 +15,7 @@ import { debug } from './logger.js';
 /**
  * Represents an internal event type.
  * @typedef {object} InternalEvent
- * @property {"v1"|"v2"|"cf"} type The type of the event.
+ * @property {"v1" | "v2" | "cf"} type The type of the event.
  * @property {string} method HTTP method used in the event.
  * @property {string} rawPath The raw path accessed in the event.
  * @property {string} url The full URL accessed in the event.
@@ -27,7 +27,7 @@ import { debug } from './logger.js';
 /**
  * Represents an internal result format.
  * @typedef {object} InternalResult
- * @property {"v1"|"v2"|"cf"} type The type of the result.
+ * @property {"v1" | "v2" | "cf"} type The type of the result.
  * @property {number} statusCode HTTP status code.
  * @property {Record<string, string|string[]>} headers Headers to send in the response.
  * @property {string} body The response body as a string.
@@ -36,7 +36,7 @@ import { debug } from './logger.js';
 
 /**
  * Checks if the event is an API Gateway V2 event.
- * @param {any} event The event to check.
+ * @param {APIGatewayProxyEventV2 | APIGatewayProxyEvent | CloudFrontRequestEvent} event The event to check.
  * @returns {event is APIGatewayProxyEventV2} True if it's an API Gateway V2 event.
  */
 export function isAPIGatewayProxyEventV2(event) {
@@ -45,7 +45,7 @@ export function isAPIGatewayProxyEventV2(event) {
 
 /**
  * Checks if the event is an API Gateway V1 event.
- * @param {any} event The event to check.
+ * @param {APIGatewayProxyEventV2 | APIGatewayProxyEvent | CloudFrontRequestEvent} event The event to check.
  * @returns {event is APIGatewayProxyEvent} True if it's an API Gateway V1 event.
  */
 export function isAPIGatewayProxyEvent(event) {
@@ -54,7 +54,7 @@ export function isAPIGatewayProxyEvent(event) {
 
 /**
  * Checks if the event is a CloudFront request event.
- * @param {any} event The event to check.
+ * @param {APIGatewayProxyEventV2 | APIGatewayProxyEvent | CloudFrontRequestEvent} event The event to check.
  * @returns {event is CloudFrontRequestEvent} True if it's a CloudFront request event.
  */
 export function isCloudFrontRequestEvent(event) {
@@ -63,7 +63,7 @@ export function isCloudFrontRequestEvent(event) {
 
 /**
  * Converts an API Gateway or CloudFront event to an internal event format.
- * @param {APIGatewayProxyEventV2|APIGatewayProxyEvent|CloudFrontRequestEvent} event The event to convert.
+ * @param {APIGatewayProxyEventV2 | APIGatewayProxyEvent | CloudFrontRequestEvent} event The event to convert.
  * @returns {InternalEvent} The internal event.
  */
 export function convertFrom(event) {
@@ -80,7 +80,7 @@ export function convertFrom(event) {
 /**
  * Converts an internal result to a corresponding AWS API Gateway or CloudFront result.
  * @param {InternalResult} result The internal result to convert.
- * @returns {APIGatewayProxyResultV2|APIGatewayProxyResult|CloudFrontRequestResult} The API Gateway or CloudFront result.
+ * @returns {APIGatewayProxyResultV2 | APIGatewayProxyResult | CloudFrontRequestResult} The API Gateway or CloudFront result.
  */
 export function convertTo(result) {
   if (result.type === 'v2') {

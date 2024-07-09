@@ -55,6 +55,7 @@ export default function (options = {}) {
     /**
      * Adapts the project for deployment.
      * @param {Builder} builder - The builder instance from SvelteKit
+     * @returns {Promise<void>}
      */
     async adapt(builder) {
       const tmp = path.join('.svelte-kit', name);
