@@ -1,6 +1,6 @@
 {
   "name": "@hearchco/sveltekit-adapter-aws",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "SvelteKit AWS universal adapter for creating necessary assets and code which can later be deployed using a custom IaC pipeline",
   "repository": {
     "type": "git",
