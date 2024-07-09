@@ -1,5 +1,10 @@
 // @ts-self-types="./index.d.ts"
 
+/**
+ * SvelteKit adapter for AWS Lambda and Lambda@Edge.
+ * @module sveltekit-adapter-aws
+ */
+
 import fs from 'node:fs';
 import path from 'node:path';
 import { build, transform } from 'esbuild';

@@ -3,6 +3,11 @@
 /* eslint-disable no-unused-vars */
 
 /**
+ * SvelteKit handler for AWS Cloudfront function v2.
+ * @module sveltekit-adapter-aws
+ */
+
+/**
  * @typedef {import("aws-lambda").CloudFrontFunctionsEvent} CloudFrontFunctionsEvent
  * @typedef {import("aws-lambda").CloudFrontFunctionsQuerystring} CloudFrontFunctionsQuerystring
  */

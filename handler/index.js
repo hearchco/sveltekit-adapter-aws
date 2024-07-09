@@ -1,5 +1,10 @@
 // @ts-self-types="./index.d.ts"
 
+/**
+ * SvelteKit handler for AWS Lambda and Lambda@Edge.
+ * @module sveltekit-adapter-aws
+ */
+
 import fs from 'node:fs';
 import path from 'node:path';
 import { installPolyfills } from '@sveltejs/kit/node/polyfills';
