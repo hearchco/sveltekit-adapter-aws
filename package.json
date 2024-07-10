@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@sveltejs/kit": "^2.5.18",
-    "@types/aws-lambda": "^8.10.140",
+    "@types/aws-lambda": "^8.10.141",
     "@types/node": "20.14.10",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
