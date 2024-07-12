@@ -1,6 +1,6 @@
 {
   "name": "@hearchco/sveltekit-adapter-aws",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "SvelteKit AWS universal adapter for creating necessary assets and code which can later be deployed using a custom IaC pipeline",
   "repository": {
     "type": "git",
@@ -13,6 +13,14 @@
     ".": {
       "types": "./index.d.ts",
       "import": "./index.js"
+    },
+    "./handler": {
+      "types": "./handler/index.d.ts",
+      "import": "./handler/index.js"
+    },
+    "./cloudfront": {
+      "types": "./cloudfront/index.d.ts",
+      "import": "./cloudfront/index.js"
     },
     "./package.json": "./package.json"
   },
@@ -38,16 +46,16 @@
   "author": "Hearchco",
   "license": "Apache-2.0",
   "dependencies": {
-    "aws-sdk": "^2.1656.0",
+    "aws-sdk": "^2.1658.0",
     "esbuild": "^0.23.0"
   },
   "devDependencies": {
     "@sveltejs/kit": "^2.5.18",
-    "@types/aws-lambda": "^8.10.140",
+    "@types/aws-lambda": "^8.10.141",
     "@types/node": "20.14.10",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-jsdoc": "^48.5.2",
+    "eslint-plugin-jsdoc": "^48.7.0",
     "eslint-plugin-prettier": "^5.1.3",
     "prettier": "^3.3.2",
     "typescript": "5.5.3"
