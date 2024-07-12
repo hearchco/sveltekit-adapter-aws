@@ -1,5 +1,9 @@
 {
   "name": "@hearchco/sveltekit-adapter-aws",
-  "version": "0.1.12",
-  "exports": "./index.js"
+  "version": "0.1.13",
+  "exports": {
+    ".": "./index.js",
+    "./handler": "./handler/index.js",
+    "./cloudfront": "./cloudfront/index.js"
+  }
 }
