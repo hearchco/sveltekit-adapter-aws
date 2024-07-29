@@ -58,7 +58,7 @@
     "eslint-plugin-jsdoc": "^48.9.0",
     "eslint-plugin-prettier": "^5.2.1",
     "prettier": "^3.3.3",
-    "typescript": "5.5.3"
+    "typescript": "5.5.4"
   },
   "peerDependencies": {
     "@sveltejs/kit": "^2.0.0"
