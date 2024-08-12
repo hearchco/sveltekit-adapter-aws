@@ -138,9 +138,9 @@ export default function (options = {}) {
         bundle: true,
         minify: true,
         platform: 'node',
-        target: 'esnext',
+        target: 'es2023',
         format: 'esm',
-        external: ['aws-sdk'],
+        external: ['@aws-sdk', '@smithy'],
         banner: {
           js: edgeBanner
         },
