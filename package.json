@@ -46,7 +46,7 @@
   "author": "Hearchco",
   "license": "Apache-2.0",
   "dependencies": {
-    "aws-sdk": "^2.1672.0",
+    "aws-sdk": "^2.1674.0",
     "esbuild": "^0.23.0"
   },
   "devDependencies": {
