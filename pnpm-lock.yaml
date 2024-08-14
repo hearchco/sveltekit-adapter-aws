@@ -16,8 +16,8 @@ importers:
         version: 0.23.0
     devDependencies:
       '@sveltejs/kit':
-        specifier: ^2.5.21
-        version: 2.5.21(@sveltejs/vite-plugin-svelte@3.1.0(svelte@4.2.15)(vite@5.2.9(@types/node@22.3.0)))(svelte@4.2.15)(vite@5.2.9(@types/node@22.3.0))
+        specifier: ^2.5.22
+        version: 2.5.22(@sveltejs/vite-plugin-svelte@3.1.0(svelte@4.2.15)(vite@5.2.9(@types/node@22.3.0)))(svelte@4.2.15)(vite@5.2.9(@types/node@22.3.0))
       '@types/aws-lambda':
         specifier: ^8.10.143
         version: 8.10.143
@@ -483,8 +483,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@sveltejs/kit@2.5.21':
-    resolution: {integrity: sha512-zHkaVZB5WNKVtosPhpPHLLvCdhUs3j6rRhDjRcXz9Mi7ZOeMe+xpzFkm7vs7RYQKMWDPUIfDngFDM3iGPyntMw==}
+  '@sveltejs/kit@2.5.22':
+    resolution: {integrity: sha512-PQ98baF2WzvG5yiO4cZKJZJG60XjHTZD1jyho3u9Kmthx2ytdGYyVPPvKXgKXpKSq4wwctD9dl0d2blSbJMcOg==}
     engines: {node: '>=18.13'}
     hasBin: true
     peerDependencies:
@@ -1539,7 +1539,7 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.18.1':
     optional: true
 
-  '@sveltejs/kit@2.5.21(@sveltejs/vite-plugin-svelte@3.1.0(svelte@4.2.15)(vite@5.2.9(@types/node@22.3.0)))(svelte@4.2.15)(vite@5.2.9(@types/node@22.3.0))':
+  '@sveltejs/kit@2.5.22(@sveltejs/vite-plugin-svelte@3.1.0(svelte@4.2.15)(vite@5.2.9(@types/node@22.3.0)))(svelte@4.2.15)(vite@5.2.9(@types/node@22.3.0))':
     dependencies:
       '@sveltejs/vite-plugin-svelte': 3.1.0(svelte@4.2.15)(vite@5.2.9(@types/node@22.3.0))
       '@types/cookie': 0.6.0
@@ -1560,7 +1560,7 @@ snapshots:
   '@sveltejs/vite-plugin-svelte-inspector@2.1.0(@sveltejs/vite-plugin-svelte@3.1.0(svelte@4.2.15)(vite@5.2.9(@types/node@22.3.0)))(svelte@4.2.15)(vite@5.2.9(@types/node@22.3.0))':
     dependencies:
       '@sveltejs/vite-plugin-svelte': 3.1.0(svelte@4.2.15)(vite@5.2.9(@types/node@22.3.0))
-      debug: 4.3.5
+      debug: 4.3.6
       svelte: 4.2.15
       vite: 5.2.9(@types/node@22.3.0)
     transitivePeerDependencies:
@@ -1569,7 +1569,7 @@ snapshots:
   '@sveltejs/vite-plugin-svelte@3.1.0(svelte@4.2.15)(vite@5.2.9(@types/node@22.3.0))':
     dependencies:
       '@sveltejs/vite-plugin-svelte-inspector': 2.1.0(@sveltejs/vite-plugin-svelte@3.1.0(svelte@4.2.15)(vite@5.2.9(@types/node@22.3.0)))(svelte@4.2.15)(vite@5.2.9(@types/node@22.3.0))
-      debug: 4.3.5
+      debug: 4.3.6
       deepmerge: 4.3.1
       kleur: 4.1.5
       magic-string: 0.30.10
