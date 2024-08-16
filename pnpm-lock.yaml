@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       aws-sdk:
-        specifier: ^2.1675.0
-        version: 2.1675.0
+        specifier: ^2.1676.0
+        version: 2.1676.0
       esbuild:
         specifier: ^0.23.0
         version: 0.23.0
@@ -563,8 +563,8 @@ packages:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
     engines: {node: '>= 0.4'}
 
-  aws-sdk@2.1675.0:
-    resolution: {integrity: sha512-gkqNAP0m3gDpnZCKL2OLdwAG+SjYT9MURGfTkixAWHIPDYD4OQf3sCcZNBTTTeOvOXus/tJIpgafKHD9DCIOCQ==}
+  aws-sdk@2.1676.0:
+    resolution: {integrity: sha512-Kzg9931GroRG6uLoUEF5Pcp005D1xilgQ8ntH0fKFxiYKGkQqkU/3JkV6k7jNRzouxTypaozzXYVNXsHRgH6JA==}
     engines: {node: '>= 10.0.0'}
 
   axobject-query@4.0.0:
@@ -1632,7 +1632,7 @@ snapshots:
     dependencies:
       possible-typed-array-names: 1.0.0
 
-  aws-sdk@2.1675.0:
+  aws-sdk@2.1676.0:
     dependencies:
       buffer: 4.9.2
       events: 1.1.1
