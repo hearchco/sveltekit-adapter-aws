@@ -52,7 +52,7 @@
   "devDependencies": {
     "@sveltejs/kit": "^2.6.0",
     "@types/aws-lambda": "^8.10.145",
-    "@types/node": "22.7.3",
+    "@types/node": "22.7.4",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-jsdoc": "^50.3.0",
