@@ -50,7 +50,7 @@
     "esbuild": "^0.24.0"
   },
   "devDependencies": {
-    "@sveltejs/kit": "^2.7.3",
+    "@sveltejs/kit": "^2.7.4",
     "@types/aws-lambda": "^8.10.145",
     "@types/node": "22.8.5",
     "eslint": "^9.13.0",
