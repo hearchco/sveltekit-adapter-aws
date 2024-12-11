@@ -16,8 +16,8 @@ importers:
         version: 0.24.0
     devDependencies:
       '@sveltejs/kit':
-        specifier: ^2.9.0
-        version: 2.9.0(@sveltejs/vite-plugin-svelte@3.1.0(svelte@4.2.15)(vite@5.2.9(@types/node@22.10.1)))(svelte@4.2.15)(vite@5.2.9(@types/node@22.10.1))
+        specifier: ^2.10.1
+        version: 2.10.1(@sveltejs/vite-plugin-svelte@3.1.0(svelte@4.2.15)(vite@5.2.9(@types/node@22.10.1)))(svelte@4.2.15)(vite@5.2.9(@types/node@22.10.1))
       '@types/aws-lambda':
         specifier: ^8.10.146
         version: 8.10.146
@@ -504,8 +504,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@sveltejs/kit@2.9.0':
-    resolution: {integrity: sha512-W3E7ed3ChB6kPqRs2H7tcHp+Z7oiTFC6m+lLyAQQuyXeqw6LdNuuwEUla+5VM0OGgqQD+cYD6+7Xq80vVm17Vg==}
+  '@sveltejs/kit@2.10.1':
+    resolution: {integrity: sha512-2aormKTn94aU8Lfxj4gcbRGh1Dyw0hCFlNo51+njdRDn9P2ERuWC4bOtTuoy5HJpPYR3AH8oaaEjKDWUHbi1OA==}
     engines: {node: '>=18.13'}
     hasBin: true
     peerDependencies:
@@ -1493,7 +1493,7 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.27.2':
     optional: true
 
-  '@sveltejs/kit@2.9.0(@sveltejs/vite-plugin-svelte@3.1.0(svelte@4.2.15)(vite@5.2.9(@types/node@22.10.1)))(svelte@4.2.15)(vite@5.2.9(@types/node@22.10.1))':
+  '@sveltejs/kit@2.10.1(@sveltejs/vite-plugin-svelte@3.1.0(svelte@4.2.15)(vite@5.2.9(@types/node@22.10.1)))(svelte@4.2.15)(vite@5.2.9(@types/node@22.10.1))':
     dependencies:
       '@sveltejs/vite-plugin-svelte': 3.1.0(svelte@4.2.15)(vite@5.2.9(@types/node@22.10.1))
       '@types/cookie': 0.6.0
