@@ -2,7 +2,7 @@ name: Testing CI
 
 on:
   pull_request:
-    branches: ['*']
+    branches: ["*"]
 
 jobs:
   build:
@@ -19,19 +19,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm i --frozen-lockfile
 
       - name: Build
         run: pnpm run build
 
-      - name: TSC
+      - name: TSC & Biome (format & lint)
         run: pnpm run check
-
-      - name: Prettier
-        run: pnpm run check-format
-
-      - name: ESLint
-        run: pnpm run lint
