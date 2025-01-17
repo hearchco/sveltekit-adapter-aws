@@ -23,13 +23,13 @@ function handler(event) {
   const request = event.request;
 
   if (request.headers.host) {
-    request.headers['x-forwarded-host'] = request.headers.host;
+    request.headers["x-forwarded-host"] = request.headers.host;
   }
 
   /** @type {CloudFrontFunctionsQuerystring} */
   const newQuerystring = {};
   for (const key in request.querystring) {
-    if (key.includes('/')) {
+    if (key.includes("/")) {
       newQuerystring[encodeURIComponent(key)] = request.querystring[key];
     } else {
       newQuerystring[key] = request.querystring[key];

@@ -5,10 +5,10 @@
  * @module sveltekit-adapter-aws
  */
 
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { build, transform } from 'esbuild';
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { build, transform } from "esbuild";
 
 /**
  * @typedef {import('@sveltejs/kit').Adapter} Adapter
@@ -24,7 +24,7 @@ import { build, transform } from 'esbuild';
  * @property {import('esbuild').BuildOptions} [esbuild] - Additional esbuild options
  */
 
-const __dirname = fileURLToPath(new URL('.', import.meta.url));
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
 /**
  * Default function to create the SvelteKit adapter.
@@ -32,13 +32,13 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url));
  * @returns {Adapter} The adapter configuration
  */
 export default function (options = {}) {
-  const name = 'sveltekit-adapter-aws';
+  const name = "sveltekit-adapter-aws";
 
   const opt = {
-    out: options.out ?? 'build',
+    out: options.out ?? "build",
     edge: options.edge ?? false,
     stream: options.stream ?? false,
-    esbuild: options.esbuild ?? {}
+    esbuild: options.esbuild ?? {},
   };
 
   /**
@@ -58,10 +58,10 @@ export default function (options = {}) {
      * @returns {Promise<void>}
      */
     async adapt(builder) {
-      const tmp = path.join('.svelte-kit', name);
-      const clientDir = path.join(tmp, 'client');
-      const serverDir = path.join(tmp, 'server');
-      const prerenderedDir = path.join(tmp, 'prerendered');
+      const tmp = path.join(".svelte-kit", name);
+      const clientDir = path.join(tmp, "client");
+      const serverDir = path.join(tmp, "server");
+      const prerenderedDir = path.join(tmp, "prerendered");
 
       // Cleanup temporary output folder
       builder.rimraf(tmp);
@@ -70,34 +70,34 @@ export default function (options = {}) {
       builder.mkdirp(prerenderedDir);
 
       // Create static output
-      builder.log.minor('Copying assets...');
+      builder.log.minor("Copying assets...");
       builder.writeClient(clientDir);
       const prerenderedFiles = builder.writePrerendered(prerenderedDir);
 
       // Create Lambda function
-      builder.log.minor('Generating server function...');
+      builder.log.minor("Generating server function...");
       builder.writeServer(serverDir);
       // copy over handler files in server handler folder
       builder.copy(
-        path.join(__dirname, 'handler'),
-        path.join(serverDir, 'lambda-handler')
+        path.join(__dirname, "handler"),
+        path.join(serverDir, "lambda-handler")
       );
       // copy over cloudfront files in server handler folder
       builder.copy(
-        path.join(__dirname, 'cloudfront'),
-        path.join(serverDir, 'cloudfront')
+        path.join(__dirname, "cloudfront"),
+        path.join(serverDir, "cloudfront")
       );
       // save a list of files in server handler folder
       fs.writeFileSync(
-        path.join(serverDir, 'lambda-handler', 'prerendered-file-list.js'),
+        path.join(serverDir, "lambda-handler", "prerendered-file-list.js"),
         `export default ${JSON.stringify(prerenderedFiles)}`
       );
 
       // Set output directory
       const out = path.resolve(opt.out);
-      const s3 = path.join(out, 's3');
-      const lambda = path.join(out, 'lambda');
-      const cloudfront = path.join(out, 'cloudfront');
+      const s3 = path.join(out, "s3");
+      const lambda = path.join(out, "lambda");
+      const cloudfront = path.join(out, "cloudfront");
 
       // Cleanup output directory
       builder.rimraf(out);
@@ -106,47 +106,47 @@ export default function (options = {}) {
       builder.mkdirp(cloudfront);
 
       // Copy static files & prerendered pages to S3
-      builder.log.minor('Copying assets for S3...');
+      builder.log.minor("Copying assets for S3...");
       builder.copy(clientDir, s3);
       builder.copy(prerenderedDir, s3);
 
       // Minify Cloudfront Function code
-      builder.log.minor('Minifying Cloudfront function...');
+      builder.log.minor("Minifying Cloudfront function...");
       const minifiedCloudfrontFunction = await transform(
         fs.readFileSync(
-          path.join(serverDir, 'cloudfront', 'index.js'),
-          'utf-8'
+          path.join(serverDir, "cloudfront", "index.js"),
+          "utf-8"
         ),
         {
           minify: true,
-          target: 'es2020'
+          target: "es2020",
         }
       );
       fs.writeFileSync(
-        path.join(cloudfront, 'index.js'),
+        path.join(cloudfront, "index.js"),
         `${minifiedCloudfrontFunction.code}`
       );
 
       // Bundle and minify server code
-      builder.log.minor('Bundling Lambda function...');
+      builder.log.minor("Bundling Lambda function...");
       await build({
-        entryPoints: [path.join(serverDir, 'lambda-handler', 'index.js')],
-        outfile: path.join(lambda, 'index.mjs'),
+        entryPoints: [path.join(serverDir, "lambda-handler", "index.js")],
+        outfile: path.join(lambda, "index.mjs"),
         outExtension: {
-          '.js': '.mjs'
+          ".js": ".mjs",
         },
         bundle: true,
         minify: true,
-        platform: 'node',
-        target: 'esnext',
-        format: 'esm',
-        external: ['aws-sdk'],
+        platform: "node",
+        target: "esnext",
+        format: "esm",
+        external: ["aws-sdk"],
         banner: {
-          js: banner
+          js: banner,
         },
-        ...opt.esbuild
+        ...opt.esbuild,
       });
-    }
+    },
   };
 
   return adapter;
