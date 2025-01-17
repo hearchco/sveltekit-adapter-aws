@@ -10,7 +10,7 @@
  * @typedef {import("aws-lambda").CloudFrontHeaders} CloudFrontHeaders
  */
 
-import { debug } from './logger.js';
+import { debug } from "./logger.js";
 
 /**
  * Represents an internal event type.
@@ -40,7 +40,7 @@ import { debug } from './logger.js';
  * @returns {event is APIGatewayProxyEventV2} True if it's an API Gateway V2 event.
  */
 export function isAPIGatewayProxyEventV2(event) {
-  return event.version === '2.0';
+  return event.version === "2.0";
 }
 
 /**
@@ -69,12 +69,15 @@ export function isCloudFrontRequestEvent(event) {
 export function convertFrom(event) {
   if (isCloudFrontRequestEvent(event)) {
     return convertFromCloudFrontRequestEvent(event);
+    // biome-ignore lint/style/noUselessElse: Expected
   } else if (isAPIGatewayProxyEventV2(event)) {
     return convertFromAPIGatewayProxyEventV2(event);
+    // biome-ignore lint/style/noUselessElse: Expected
   } else if (isAPIGatewayProxyEvent(event)) {
     return convertFromAPIGatewayProxyEvent(event);
   }
-  throw new Error('Unsupported event type');
+
+  throw new Error("Unsupported event type");
 }
 
 /**
@@ -83,14 +86,16 @@ export function convertFrom(event) {
  * @returns {APIGatewayProxyResultV2 | APIGatewayProxyResult | CloudFrontRequestResult} The API Gateway or CloudFront result.
  */
 export function convertTo(result) {
-  if (result.type === 'v2') {
-    return convertToApiGatewayProxyResultV2(result);
-  } else if (result.type === 'v1') {
-    return convertToApiGatewayProxyResult(result);
-  } else if (result.type === 'cf') {
-    return convertToCloudFrontRequestResult(result);
+  switch (result.type) {
+    case "v2":
+      return convertToApiGatewayProxyResultV2(result);
+    case "v1":
+      return convertToApiGatewayProxyResult(result);
+    case "cf":
+      return convertToCloudFrontRequestResult(result);
+    default:
+      throw new Error("Unsupported event type");
   }
-  throw new Error('Unsupported event type');
 }
 
 /**
@@ -101,13 +106,13 @@ export function convertTo(result) {
 function convertFromAPIGatewayProxyEvent(event) {
   const { path, body, httpMethod, requestContext, isBase64Encoded } = event;
   return {
-    type: 'v1',
+    type: "v1",
     method: httpMethod,
     rawPath: path,
     url: path + normalizeAPIGatewayProxyEventQueryParams(event),
-    body: Buffer.from(body ?? '', isBase64Encoded ? 'base64' : 'utf8'),
+    body: Buffer.from(body ?? "", isBase64Encoded ? "base64" : "utf8"),
     headers: normalizeAPIGatewayProxyEventHeaders(event),
-    remoteAddress: requestContext.identity.sourceIp
+    remoteAddress: requestContext.identity.sourceIp,
   };
 }
 
@@ -119,13 +124,13 @@ function convertFromAPIGatewayProxyEvent(event) {
 function convertFromAPIGatewayProxyEventV2(event) {
   const { rawPath, rawQueryString, requestContext } = event;
   return {
-    type: 'v2',
+    type: "v2",
     method: requestContext.http.method,
     rawPath,
-    url: rawPath + (rawQueryString ? `?${rawQueryString}` : ''),
+    url: rawPath + (rawQueryString ? `?${rawQueryString}` : ""),
     body: normalizeAPIGatewayProxyEventV2Body(event),
     headers: normalizeAPIGatewayProxyEventV2Headers(event),
-    remoteAddress: requestContext.http.sourceIp
+    remoteAddress: requestContext.http.sourceIp,
   };
 }
 
@@ -138,16 +143,16 @@ function convertFromCloudFrontRequestEvent(event) {
   const { method, uri, querystring, body, headers, clientIp } =
     event.Records[0].cf.request;
   return {
-    type: 'cf',
+    type: "cf",
     method,
     rawPath: uri,
-    url: uri + (querystring ? `?${querystring}` : ''),
+    url: uri + (querystring ? `?${querystring}` : ""),
     body: Buffer.from(
-      body?.data ?? '',
-      body?.encoding === 'base64' ? 'base64' : 'utf8'
+      body?.data ?? "",
+      body?.encoding === "base64" ? "base64" : "utf8"
     ),
     headers: normalizeCloudFrontRequestEventHeaders(headers),
-    remoteAddress: clientIp
+    remoteAddress: clientIp,
   };
 }
 
@@ -161,24 +166,27 @@ function convertToApiGatewayProxyResult(result) {
   const headers = {};
   /** @type {Record<string, string[]>} */
   const multiValueHeaders = {};
-  Object.entries(result.headers).forEach(([key, value]) => {
+
+  const resultHeaders = Object.entries(result.headers);
+  for (const [key, value] of resultHeaders) {
     if (Array.isArray(value)) {
       multiValueHeaders[key] = value;
     } else {
       if (value === null) {
-        headers[key] = '';
+        headers[key] = "";
         return;
       }
       headers[key] = value;
     }
-  });
+  }
+
   /** @type {APIGatewayProxyResult} */
   const response = {
     statusCode: result.statusCode,
     headers,
     body: result.body,
     isBase64Encoded: result.isBase64Encoded,
-    multiValueHeaders
+    multiValueHeaders,
   };
   debug(response);
   return response;
@@ -192,22 +200,25 @@ function convertToApiGatewayProxyResult(result) {
 function convertToApiGatewayProxyResultV2(result) {
   /** @type {Record<string, string>} */
   const headers = {};
-  Object.entries(result.headers)
-    .filter(([key]) => key.toLowerCase() !== 'set-cookie')
-    .forEach(([key, value]) => {
-      if (value === null) {
-        headers[key] = '';
-        return;
-      }
-      headers[key] = Array.isArray(value) ? value.join(', ') : value.toString();
-    });
+
+  const resultHeaders = Object.entries(result.headers).filter(
+    ([key]) => key.toLowerCase() !== "set-cookie"
+  );
+  for (const [key, value] of resultHeaders) {
+    if (value === null) {
+      headers[key] = "";
+      return;
+    }
+    headers[key] = Array.isArray(value) ? value.join(", ") : value.toString();
+  }
+
   /** @type {APIGatewayProxyResultV2} */
   const response = {
     statusCode: result.statusCode,
     headers,
-    cookies: /** @type {string[]|undefined} */ (result.headers['set-cookie']),
+    cookies: /** @type {string[]|undefined} */ (result.headers["set-cookie"]),
     body: result.body,
-    isBase64Encoded: result.isBase64Encoded
+    isBase64Encoded: result.isBase64Encoded,
   };
   debug(response);
   return response;
@@ -221,23 +232,27 @@ function convertToApiGatewayProxyResultV2(result) {
 function convertToCloudFrontRequestResult(result) {
   /** @type {CloudFrontHeaders} */
   const headers = {};
-  Object.entries(result.headers)
-    .filter(([key]) => key.toLowerCase() !== 'content-length')
-    .forEach(([key, value]) => {
-      headers[key] = [
-        ...(headers[key] || []),
-        ...(Array.isArray(value)
-          ? value.map(v => ({ key, value: v }))
-          : [{ key, value: value.toString() }])
-      ];
-    });
+
+  const resultHeaders = Object.entries(result.headers).filter(
+    ([key]) => key.toLowerCase() !== "content-length"
+  );
+
+  for (const [key, value] of resultHeaders) {
+    headers[key] = [
+      ...(headers[key] || []),
+      ...(Array.isArray(value)
+        ? value.map(v => ({ key, value: v }))
+        : [{ key, value: value.toString() }]),
+    ];
+  }
+
   /** @type {CloudFrontRequestResult} */
   const response = {
     status: result.statusCode.toString(),
-    statusDescription: 'OK',
+    statusDescription: "OK",
     headers,
-    bodyEncoding: result.isBase64Encoded ? 'base64' : 'text',
-    body: result.body
+    bodyEncoding: result.isBase64Encoded ? "base64" : "text",
+    body: result.body,
   };
   debug(response);
   return response;
@@ -255,7 +270,7 @@ function normalizeAPIGatewayProxyEventV2Headers(event) {
   const headers = {};
 
   if (Array.isArray(cookies)) {
-    headers['cookie'] = cookies.join('; ');
+    headers.cookie = cookies.join("; ");
   }
 
   for (const [key, value] of Object.entries(rawHeaders || {})) {
@@ -272,14 +287,18 @@ function normalizeAPIGatewayProxyEventV2Headers(event) {
  */
 function normalizeAPIGatewayProxyEventV2Body(event) {
   const { body, isBase64Encoded } = event;
+
   if (Buffer.isBuffer(body)) {
     return body;
-  } else if (typeof body === 'string') {
-    return Buffer.from(body, isBase64Encoded ? 'base64' : 'utf8');
-  } else if (typeof body === 'object') {
+    // biome-ignore lint/style/noUselessElse: Expected
+  } else if (typeof body === "string") {
+    return Buffer.from(body, isBase64Encoded ? "base64" : "utf8");
+    // biome-ignore lint/style/noUselessElse: Expected
+  } else if (typeof body === "object") {
     return Buffer.from(JSON.stringify(body));
   }
-  return Buffer.from('', 'utf8');
+
+  return Buffer.from("", "utf8");
 }
 
 /**
@@ -308,7 +327,7 @@ function normalizeAPIGatewayProxyEventQueryParams(event) {
     }
   }
   const value = params.toString();
-  return value ? `?${value}` : '';
+  return value ? `?${value}` : "";
 }
 
 /**
@@ -323,7 +342,7 @@ function normalizeAPIGatewayProxyEventHeaders(event) {
 
   for (const [key, values] of Object.entries(event.multiValueHeaders)) {
     if (values) {
-      headers[key.toLowerCase()] = values.join(',');
+      headers[key.toLowerCase()] = values.join(",");
     }
   }
   for (const [key, value] of Object.entries(event.headers)) {
