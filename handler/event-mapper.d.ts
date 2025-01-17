@@ -119,14 +119,18 @@ export type InternalResult = {
    */
   isBase64Encoded: boolean;
 };
-export type APIGatewayProxyEventV2 =
-  import('aws-lambda').APIGatewayProxyEventV2;
-export type APIGatewayProxyResultV2 =
-  import('aws-lambda').APIGatewayProxyResultV2;
+export type APIGatewayProxyEventV2 = import(
+  'aws-lambda'
+).APIGatewayProxyEventV2;
+export type APIGatewayProxyResultV2 = import(
+  'aws-lambda'
+).APIGatewayProxyResultV2;
 export type APIGatewayProxyEvent = import('aws-lambda').APIGatewayProxyEvent;
 export type APIGatewayProxyResult = import('aws-lambda').APIGatewayProxyResult;
-export type CloudFrontRequestEvent =
-  import('aws-lambda').CloudFrontRequestEvent;
-export type CloudFrontRequestResult =
-  import('aws-lambda').CloudFrontRequestResult;
+export type CloudFrontRequestEvent = import(
+  'aws-lambda'
+).CloudFrontRequestEvent;
+export type CloudFrontRequestResult = import(
+  'aws-lambda'
+).CloudFrontRequestResult;
 export type CloudFrontHeaders = import('aws-lambda').CloudFrontHeaders;

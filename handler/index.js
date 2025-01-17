@@ -12,11 +12,11 @@ import { installPolyfills } from '@sveltejs/kit/node/polyfills';
 import { Server } from '../index.js';
 // @ts-ignore
 import { manifest } from '../manifest.js';
-// @ts-ignore
-import prerenderedFiles from './prerendered-file-list.js';
+import { isBinaryContentType } from './binary.js';
 import { convertFrom, convertTo } from './event-mapper.js';
 import { debug } from './logger.js';
-import { isBinaryContentType } from './binary.js';
+// @ts-ignore
+import prerenderedFiles from './prerendered-file-list.js';
 
 installPolyfills();
 
@@ -121,22 +121,23 @@ export async function handler(event) {
  * @returns {string | undefined} The filepath if it is a prerendered file, otherwise undefined.
  */
 function isPrerenderedFile(uri) {
-  // remove leading and trailing slashes
-  uri = uri.replace(/^\/|\/$/g, '');
+  // Remove leading and trailing slashes
+  const sanitizedUri = uri.replace(/^\/|\/$/g, '');
 
-  if (uri === '') {
+  if (sanitizedUri === '') {
     return prerenderedFiles.includes('index.html') ? 'index.html' : undefined;
+    // biome-ignore lint/style/noUselessElse: Expected
+  } else if (prerenderedFiles.includes(sanitizedUri)) {
+    return sanitizedUri;
+    // biome-ignore lint/style/noUselessElse: Expected
+  } else if (prerenderedFiles.includes(`${sanitizedUri}/index.html`)) {
+    return `${sanitizedUri}/index.html`;
+    // biome-ignore lint/style/noUselessElse: Expected
+  } else if (prerenderedFiles.includes(`${sanitizedUri}.html`)) {
+    return `${sanitizedUri}.html`;
   }
 
-  if (prerenderedFiles.includes(uri)) {
-    return uri;
-  }
-  if (prerenderedFiles.includes(uri + '/index.html')) {
-    return uri + '/index.html';
-  }
-  if (prerenderedFiles.includes(uri + '.html')) {
-    return uri + '.html';
-  }
+  return undefined;
 }
 
 /**

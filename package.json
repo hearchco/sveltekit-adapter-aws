@@ -25,40 +25,25 @@
     "./package.json": "./package.json"
   },
   "types": "index.d.ts",
-  "files": [
-    "files",
-    "index.js",
-    "utils.js",
-    "index.d.ts"
-  ],
+  "files": ["files", "index.js", "utils.js", "index.d.ts"],
   "scripts": {
     "build": "npx tsc",
-    "lint": "eslint .",
-    "format": "prettier --write .",
-    "check-format": "prettier --check .",
-    "check": "tsc"
+    "lint": "biome lint .",
+    "format": "biome format --write .",
+    "check": "tsc && biome check ."
   },
-  "keywords": [
-    "sveltekit",
-    "adapter",
-    "aws"
-  ],
+  "keywords": ["sveltekit", "adapter", "aws"],
   "author": "Hearchco",
   "license": "Apache-2.0",
   "dependencies": {
-    "aws-sdk": "^2.1692.0",
-    "esbuild": "^0.24.0"
+    "esbuild": "^0.24.2"
   },
   "devDependencies": {
-    "@sveltejs/kit": "^2.9.0",
-    "@types/aws-lambda": "^8.10.146",
-    "@types/node": "22.10.7",
-    "eslint": "^9.16.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-jsdoc": "^50.6.1",
-    "eslint-plugin-prettier": "^5.2.1",
-    "prettier": "^3.4.2",
-    "typescript": "5.7.2"
+    "@biomejs/biome": "^1.9.4",
+    "@sveltejs/kit": "^2.16.0",
+    "@types/aws-lambda": "^8.10.147",
+    "@types/node": "^22.10.7",
+    "typescript": "^5.7.3"
   },
   "peerDependencies": {
     "@sveltejs/kit": "^2.0.0"

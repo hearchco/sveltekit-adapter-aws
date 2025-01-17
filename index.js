@@ -7,8 +7,8 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { build, transform } from 'esbuild';
 import { fileURLToPath } from 'node:url';
+import { build, transform } from 'esbuild';
 
 /**
  * @typedef {import('@sveltejs/kit').Adapter} Adapter

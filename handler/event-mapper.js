@@ -69,11 +69,14 @@ export function isCloudFrontRequestEvent(event) {
 export function convertFrom(event) {
   if (isCloudFrontRequestEvent(event)) {
     return convertFromCloudFrontRequestEvent(event);
+    // biome-ignore lint/style/noUselessElse: Expected
   } else if (isAPIGatewayProxyEventV2(event)) {
     return convertFromAPIGatewayProxyEventV2(event);
+    // biome-ignore lint/style/noUselessElse: Expected
   } else if (isAPIGatewayProxyEvent(event)) {
     return convertFromAPIGatewayProxyEvent(event);
   }
+
   throw new Error('Unsupported event type');
 }
 
@@ -83,14 +86,16 @@ export function convertFrom(event) {
  * @returns {APIGatewayProxyResultV2 | APIGatewayProxyResult | CloudFrontRequestResult} The API Gateway or CloudFront result.
  */
 export function convertTo(result) {
-  if (result.type === 'v2') {
-    return convertToApiGatewayProxyResultV2(result);
-  } else if (result.type === 'v1') {
-    return convertToApiGatewayProxyResult(result);
-  } else if (result.type === 'cf') {
-    return convertToCloudFrontRequestResult(result);
+  switch (result.type) {
+    case 'v2':
+      return convertToApiGatewayProxyResultV2(result);
+    case 'v1':
+      return convertToApiGatewayProxyResult(result);
+    case 'cf':
+      return convertToCloudFrontRequestResult(result);
+    default:
+      throw new Error('Unsupported event type');
   }
-  throw new Error('Unsupported event type');
 }
 
 /**
@@ -161,7 +166,9 @@ function convertToApiGatewayProxyResult(result) {
   const headers = {};
   /** @type {Record<string, string[]>} */
   const multiValueHeaders = {};
-  Object.entries(result.headers).forEach(([key, value]) => {
+
+  const resultHeaders = Object.entries(result.headers);
+  for (const [key, value] of resultHeaders) {
     if (Array.isArray(value)) {
       multiValueHeaders[key] = value;
     } else {
@@ -171,7 +178,8 @@ function convertToApiGatewayProxyResult(result) {
       }
       headers[key] = value;
     }
-  });
+  }
+
   /** @type {APIGatewayProxyResult} */
   const response = {
     statusCode: result.statusCode,
@@ -192,15 +200,18 @@ function convertToApiGatewayProxyResult(result) {
 function convertToApiGatewayProxyResultV2(result) {
   /** @type {Record<string, string>} */
   const headers = {};
-  Object.entries(result.headers)
-    .filter(([key]) => key.toLowerCase() !== 'set-cookie')
-    .forEach(([key, value]) => {
-      if (value === null) {
-        headers[key] = '';
-        return;
-      }
-      headers[key] = Array.isArray(value) ? value.join(', ') : value.toString();
-    });
+
+  const resultHeaders = Object.entries(result.headers).filter(
+    ([key]) => key.toLowerCase() !== 'set-cookie'
+  );
+  for (const [key, value] of resultHeaders) {
+    if (value === null) {
+      headers[key] = '';
+      return;
+    }
+    headers[key] = Array.isArray(value) ? value.join(', ') : value.toString();
+  }
+
   /** @type {APIGatewayProxyResultV2} */
   const response = {
     statusCode: result.statusCode,
@@ -221,16 +232,20 @@ function convertToApiGatewayProxyResultV2(result) {
 function convertToCloudFrontRequestResult(result) {
   /** @type {CloudFrontHeaders} */
   const headers = {};
-  Object.entries(result.headers)
-    .filter(([key]) => key.toLowerCase() !== 'content-length')
-    .forEach(([key, value]) => {
-      headers[key] = [
-        ...(headers[key] || []),
-        ...(Array.isArray(value)
-          ? value.map(v => ({ key, value: v }))
-          : [{ key, value: value.toString() }])
-      ];
-    });
+
+  const resultHeaders = Object.entries(result.headers).filter(
+    ([key]) => key.toLowerCase() !== 'content-length'
+  );
+
+  for (const [key, value] of resultHeaders) {
+    headers[key] = [
+      ...(headers[key] || []),
+      ...(Array.isArray(value)
+        ? value.map(v => ({ key, value: v }))
+        : [{ key, value: value.toString() }])
+    ];
+  }
+
   /** @type {CloudFrontRequestResult} */
   const response = {
     status: result.statusCode.toString(),
@@ -255,7 +270,7 @@ function normalizeAPIGatewayProxyEventV2Headers(event) {
   const headers = {};
 
   if (Array.isArray(cookies)) {
-    headers['cookie'] = cookies.join('; ');
+    headers.cookie = cookies.join('; ');
   }
 
   for (const [key, value] of Object.entries(rawHeaders || {})) {
@@ -272,13 +287,17 @@ function normalizeAPIGatewayProxyEventV2Headers(event) {
  */
 function normalizeAPIGatewayProxyEventV2Body(event) {
   const { body, isBase64Encoded } = event;
+
   if (Buffer.isBuffer(body)) {
     return body;
+    // biome-ignore lint/style/noUselessElse: Expected
   } else if (typeof body === 'string') {
     return Buffer.from(body, isBase64Encoded ? 'base64' : 'utf8');
+    // biome-ignore lint/style/noUselessElse: Expected
   } else if (typeof body === 'object') {
     return Buffer.from(JSON.stringify(body));
   }
+
   return Buffer.from('', 'utf8');
 }
 

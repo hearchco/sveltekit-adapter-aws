@@ -1,7 +1,5 @@
 // @ts-self-types="./index.d.ts"
 
-/* eslint-disable no-unused-vars */
-
 /**
  * SvelteKit handler for AWS Cloudfront function v2.
  * @module sveltekit-adapter-aws
@@ -20,16 +18,17 @@
  * @param {CloudFrontFunctionsEvent} event - Cloudfront functions event
  * @returns {CloudFrontFunctionsRequest} - Cloudfront function event request
  */
+// biome-ignore lint/correctness/noUnusedVariables: This is expected and must be in this format for Cloudfront
 function handler(event) {
-  var request = event.request;
+  const request = event.request;
 
   if (request.headers.host) {
     request.headers['x-forwarded-host'] = request.headers.host;
   }
 
   /** @type {CloudFrontFunctionsQuerystring} */
-  var newQuerystring = {};
-  for (var key in request.querystring) {
+  const newQuerystring = {};
+  for (const key in request.querystring) {
     if (key.includes('/')) {
       newQuerystring[encodeURIComponent(key)] = request.querystring[key];
     } else {
