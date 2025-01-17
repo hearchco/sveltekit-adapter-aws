@@ -45,9 +45,9 @@ export default function (options = {}) {
    * WARNING: This is a workaround to inject environment variables into the edge function
    * The placeholder '{{_EDGE_FUNCTION_ENVIRONMENT_}}' must be replaced with your IaC pipeline
    */
-  const edgeBanner = opt.edge
-    ? "process.env = { ...process.env, ...'{{_EDGE_FUNCTION_ENVIRONMENT_}}' };"
-    : '';
+  const banner = opt.edge
+    ? "process.env = { ...process.env, ...'{{_EDGE_FUNCTION_ENVIRONMENT_}}' }; import { createRequire } from 'module'; const require = createRequire(import.meta.url);"
+    : "import { createRequire } from 'module'; const require = createRequire(import.meta.url);";
 
   const adapter = {
     name: name,
@@ -142,7 +142,7 @@ export default function (options = {}) {
         format: 'esm',
         external: ['aws-sdk'],
         banner: {
-          js: edgeBanner
+          js: banner
         },
         ...opt.esbuild
       });
